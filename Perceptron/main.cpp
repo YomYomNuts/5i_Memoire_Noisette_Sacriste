@@ -61,7 +61,8 @@ int main (int argc, char *argv[])
 				weight[j] = weight[j] + LEARNING_RATE * (training->result - Hw) * training->data[j];
 
 			// Verify the end of the learning
-			continueLearning |= ((training->result - Hw) != 0);
+			if (training->result - Hw != 0)
+				continueLearning = true;
 		}
 	} while (continueLearning);
 
