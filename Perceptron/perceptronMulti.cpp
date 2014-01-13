@@ -2,15 +2,20 @@
 #include <math.h>
 #include <stdlib.h>
 
+#define USE_MULTI
+#ifdef USE_MULTI
+
 using namespace std;
 
-#define NUMBER_SIZE_VECTOR	3 // 2 parameters of vector and the through
+#define NUMBER_PARAMETERS    2
+#define NUMBER_SIZE_VECTOR	(NUMBER_PARAMETERS+1) // number parameters and the through
 #define NUMBER_INPUTS		4
 #define NUMBER_OUTPUTS		1
 #define LEARNING_RATE		0.1
-#define NUMBER_LAYERS		3
-#define NUMBER_NODES		{ NUMBER_SIZE_VECTOR, 2, NUMBER_OUTPUTS }
-#define MAX_FRAMES_TEST		500
+#define NUMBER_LAYERS		3 // 1 input, 1 output and 1 hide
+#define NUMBER_NODES		{ NUMBER_SIZE_VECTOR, NUMBER_PARAMETERS, NUMBER_OUTPUTS }
+#define MAX_FRAMES_TEST	    10000
+#define USE_SIGMOID
 
 // Types
 typedef struct {
@@ -20,9 +25,9 @@ typedef struct {
 
 typedef struct {
     double * weight;
-    double a;
+    double hx;
 	double in;
-	double delta;
+	double loss;
 } Node;
 
 typedef struct {
@@ -47,6 +52,15 @@ double RandomDouble(double Low, double High)
   return ((double) rand() / RAND_MAX) * (High-Low) + Low;
 }
 
+double FunctionSigmoid(double wx)
+{
+    return 1.0 / (1.0 + exp(-wx));
+}
+
+double FunctionThreshold(double wx)
+{
+    return wx < 0.5 ? 0 : 1;
+}
 
 int main (int argc, char *argv[])
 {
@@ -91,7 +105,7 @@ int main (int argc, char *argv[])
 			for (int k = 0; k < layerInput->numberNodes; ++k)
 			{
 				Node * node = &layerInput->nodes[k];
-				node->a = training->data[k];
+				node->hx = training->data[k];
 			}
 			for(int j = 1; j < perceptron->numberLayers; ++j)
 			{
@@ -101,18 +115,22 @@ int main (int argc, char *argv[])
 				{
 					Node * node = &layer->nodes[k];
 					double sum = 0;
-					for (int l = 0; l < prevLayer->numberNodes; ++l )
-						sum += node->weight[l] * prevLayer->nodes[l].a;
+					for (int l = 0; l < prevLayer->numberNodes; ++l)
+						sum += node->weight[l] * prevLayer->nodes[l].hx;
 					node->in = sum;
-					node->a = 1.0 / (1.0 + exp(-node->in));
+#ifdef USE_SIGMOID
+					node->hx = FunctionSigmoid(node->in);
+#else
+                    node->hx = FunctionThreshold(node->in);
+#endif
 				}
 			}
 
-			/* Propagate the delta */
+			/* Propagate the loss */
 			for (int k = 0; k < layerOutput->numberNodes; ++k)
 			{
 				Node * node = &layerOutput->nodes[k];
-				node->delta = training->result[k] - node->a;
+                node->loss = node->hx * (1 - node->hx) * (training->result[k] - node->in);
 			}
 			for(int j = perceptron->numberLayers - 2; j >= 0; --j)
 			{
@@ -121,10 +139,17 @@ int main (int argc, char *argv[])
 				for(int k = 0; k < layer->numberNodes; ++k)
 				{
 					Node * node = &layer->nodes[k];
-					double sum ;
+					double sum = 0;
 					for (int l = 0; l < nextLayer->numberNodes; ++l)
-						sum += nextLayer->nodes[l].weight[k] * nextLayer->nodes[l].delta;
-					node->delta = node->in * (1 - node->in) * sum;
+                    {
+                        Node * nodeNextLayer = &nextLayer->nodes[l];
+						sum += nodeNextLayer->weight[k] * nodeNextLayer->loss;
+                    }
+#ifdef USE_SIGMOID
+                    node->loss = node->hx * (1 - node->hx) * sum;
+#else
+                    node->loss = node->hx * sum;
+#endif
 				}
 			}
 
@@ -136,12 +161,40 @@ int main (int argc, char *argv[])
 				for(int k = 0; k < layer->numberNodes; ++k)
 				{
 					Node * node = &layer->nodes[k];
-					for (int l = 0; l < prevLayer->numberNodes; ++l )
-						node->weight[l] += LEARNING_RATE * node->a * prevLayer->nodes[l].delta;
+					for (int l = 0; l < prevLayer->numberNodes; ++l)
+						node->weight[l] -= LEARNING_RATE * node->in * prevLayer->nodes[l].loss;
 				}
+			}
+
+            /* Verify if it's finish */
+			for (int k = 0; k < layerOutput->numberNodes; ++k)
+			{
+				Node * node = &layerOutput->nodes[k];
+                if (node->loss != 0)
+                    continueLearning = true;
 			}
 		}
 	} while(continueLearning && numberFramesTest < MAX_FRAMES_TEST);
+
+
+    for(int j = 0; j < perceptron->numberLayers - 1; ++j)
+    {
+        Layer * layer = &perceptron->layers[j];
+        Layer * nextLayer = &perceptron->layers[j+1];
+        cout << "Layer " << j << " nb Nodes " << layer->numberNodes << endl;
+        for(int k = 0; k < layer->numberNodes; ++k)
+        {
+            cout << "  Weights Node " << k << endl;
+            for (int l = 0; l < nextLayer->numberNodes; ++l)
+            {
+                Node * node = &nextLayer->nodes[l];
+                cout << "    Weight " << l << " " << node->weight[k] << endl;
+            }
+        }
+    }
+
+    cout << "Finish Learning " << !continueLearning << endl;
+    cout << " --> With " << numberFramesTest << " iterations" << endl;
 
 	return 0;
 }
@@ -163,7 +216,7 @@ void initializePerceptron(Perceptron * perceptron)
 			Node * node = &layer->nodes[k];
 			if(j > 0)
 			{
-				node->weight = new double[ numberNodes[j - 1] ];
+				node->weight = new double[numberNodes[j - 1]];
 			}
 			else
 			{
@@ -189,3 +242,5 @@ void initializeWeight(Perceptron * perceptron)
 		}
 	}
 }
+
+#endif

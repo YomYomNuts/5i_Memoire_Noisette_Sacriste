@@ -1,5 +1,8 @@
 #include <iostream>
 
+//#define USE_SIMPLE
+#ifdef USE_SIMPLE
+
 using namespace std;
 
 #define NUMBER_SIZE_VECTOR	3 // 2 parameters of vector and the through
@@ -72,3 +75,5 @@ int main (int argc, char *argv[])
 
 	return 0;
 }
+
+#endif

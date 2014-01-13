@@ -1,0 +1,68 @@
+﻿La génération a démarré 27/12/2013 19:35:06.
+     1>Projet "C:\Users\Administrateur\Documents\Master Jeux Video\M2 Jeux Video\OpenGL\OpenGL\ESGIGL\EsgiGL.vcxproj" sur le nœud 2 (rebuild cible(s)).
+     1>_PrepareForClean:
+         Suppression du fichier "build\Debug GL2\EsgiGL.lastbuildstate".
+       InitializeBuildStatus:
+         Création de "build\Debug GL2\EsgiGL.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I. /Ilibs /ZI /nologo /W3 /WX- /Od /Oy- /D ESGI_GL_20 /D WIN32 /D _DEBUG /D _LIB /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"build\Debug GL2\\" /Fd"build\Debug GL2\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt common\cube.cpp common\EsgiUtils.cpp common\EsgiMesh.cpp common\matrix.cpp EsgiGL.cpp EsgiShader.cpp Plateforme\Windows\EsgiEGL.cpp Plateforme\Windows\EsgiWindows.cpp Plateforme\Windows\EsgiWinExtensions.cpp
+         EsgiWinExtensions.cpp
+         EsgiWindows.cpp
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\plateforme\windows\esgiwindows.cpp(30): warning C4996: 'vsnprintf': This function or variable may be unsafe. Consider using vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(354) : voir la déclaration de 'vsnprintf'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\plateforme\windows\esgiwindows.cpp(44): warning C4996: 'vsnprintf': This function or variable may be unsafe. Consider using vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(354) : voir la déclaration de 'vsnprintf'
+         EsgiEGL.cpp
+         EsgiShader.cpp
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\esgishader.cpp(23): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : voir la déclaration de 'fopen'
+         EsgiGL.cpp
+         matrix.cpp
+         EsgiMesh.cpp
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(41): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : voir la déclaration de 'fopen'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(68): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(76): warning C4018: '<' : incompatibilité signed/unsigned
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(87): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(94): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(96): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(98): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(121): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(197) : voir la déclaration de 'strtok'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(131): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(188) : voir la déclaration de 'strncpy'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(148): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(188) : voir la déclaration de 'strncpy'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(162): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(188) : voir la déclaration de 'strncpy'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(185): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(197) : voir la déclaration de 'strtok'
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgimesh.cpp(227): warning C4018: '<' : incompatibilité signed/unsigned
+         EsgiUtils.cpp
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\opengl\opengl\esgigl\common\esgiutils.cpp(74): warning C4101: 'linked' : variable locale non référencée
+         cube.cpp
+         Génération de code en cours...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"Libs\EsgiGL2debug.lib" /LIBPATH:./Libs /NOLOGO "build\Debug GL2\cube.obj"
+         "build\Debug GL2\EsgiUtils.obj"
+         "build\Debug GL2\EsgiMesh.obj"
+         "build\Debug GL2\matrix.obj"
+         "build\Debug GL2\EsgiGL.obj"
+         "build\Debug GL2\EsgiShader.obj"
+         "build\Debug GL2\EsgiEGL.obj"
+         "build\Debug GL2\EsgiWindows.obj"
+         "build\Debug GL2\EsgiWinExtensions.obj"
+         EsgiGL.vcxproj -> C:\Users\Administrateur\Documents\Master Jeux Video\M2 Jeux Video\OpenGL\OpenGL\ESGIGL\Libs\EsgiGL2debug.lib
+       FinalizeBuildStatus:
+         Suppression du fichier "build\Debug GL2\EsgiGL.unsuccessfulbuild".
+         Mise à jour de l'horodatage "build\Debug GL2\EsgiGL.lastbuildstate".
+     1>Génération du projet "C:\Users\Administrateur\Documents\Master Jeux Video\M2 Jeux Video\OpenGL\OpenGL\ESGIGL\EsgiGL.vcxproj" terminée (rebuild cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:03.18

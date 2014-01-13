@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1387409525 source:c:\users\administrateur\documents\master jeux video\m2 jeux video\5i_memoire_noisette_sacriste\perceptron\main.cpp
+	<iostream>
+
+1389479066 source:c:\users\administrateur\documents\master jeux video\m2 jeux video\5i_memoire_noisette_sacriste\perceptron\perceptronmulti.cpp
+	<iostream>
+	<math.h>
+	<stdlib.h>
+

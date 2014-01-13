@@ -1,0 +1,26 @@
+﻿La génération a démarré 13/01/2014 11:25:38.
+     1>Projet "C:\Users\Administrateur\Documents\Master Jeux Video\M2 Jeux Video\5i_Memoire_Noisette_Sacriste\PMC\OpenGL\Memoire\Memoire\Memoire.vcxproj" sur le nœud 2 (build cible(s)).
+     1>InitializeBuildStatus:
+         Création de "Debug GL2\Memoire.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\EsgiGL /I..\..\EsgiGL\Libs /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug GL2\\" /Fd"Debug GL2\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Memoire.cpp PMC.cpp
+         PMC.cpp
+         Memoire.cpp
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\5i_memoire_noisette_sacriste\pmc\opengl\memoire\memoire\memoire.cpp(167): warning C4244: 'initialisation' : conversion de 'int' en 'float', perte possible de données
+     1>c:\users\administrateur\documents\master jeux video\m2 jeux video\5i_memoire_noisette_sacriste\pmc\opengl\memoire\memoire\memoire.cpp(167): warning C4244: 'initialisation' : conversion de 'int' en 'float', perte possible de données
+         Génération de code en cours...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Memoire_debug.exe" /NOLOGO /LIBPATH:../../EsgiGL/Libs esgiGL2debug.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug GL2\Memoire_debug.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Administrateur\Documents\Master Jeux Video\M2 Jeux Video\5i_Memoire_Noisette_Sacriste\PMC\OpenGL\Memoire\Memoire\Memoire_debug.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Memoire_debug.lib" /MACHINE:X86 "Debug GL2\Memoire.obj"
+         "Debug GL2\PMC.obj"
+         LINK : .\Memoire_debug.exe introuvable ou non généré par la dernière édition de liens incrémentielle ; édition de liens complète en cours
+         Memoire.vcxproj -> C:\Users\Administrateur\Documents\Master Jeux Video\M2 Jeux Video\5i_Memoire_Noisette_Sacriste\PMC\OpenGL\Memoire\Memoire\.\Memoire_debug.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:".\Memoire_debug.exe;#1" /manifest "Debug GL2\Memoire_debug.exe.intermediate.manifest"
+       FinalizeBuildStatus:
+         Suppression du fichier "Debug GL2\Memoire.unsuccessfulbuild".
+         Mise à jour de l'horodatage "Debug GL2\Memoire.lastbuildstate".
+     1>Génération du projet "C:\Users\Administrateur\Documents\Master Jeux Video\M2 Jeux Video\5i_Memoire_Noisette_Sacriste\PMC\OpenGL\Memoire\Memoire\Memoire.vcxproj" terminée (build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:01.72
