@@ -128,6 +128,7 @@
   <ItemGroup>
     <None Include="basic.frag" />
     <None Include="basic.vert" />
+    <None Include="inputs.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PMC.h" />

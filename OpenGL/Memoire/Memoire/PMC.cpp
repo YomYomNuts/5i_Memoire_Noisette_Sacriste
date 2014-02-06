@@ -156,11 +156,14 @@ bool PMC::LaunchLearning(int maxIteration, double learningRate, bool useSigmoid,
         for(unsigned int k = 0; k < layer->size(); ++k)
         {
             cout << "  Weights Node " << k << endl;
+			double sum = 0;
             for (unsigned int l = 0; l < nextLayer->size(); ++l)
             {
                 Node * node = &nextLayer->at(l);
+				sum += node->loss;
                 cout << "    Weight " << l << " " << node->weight.at(k) << endl;
             }
+			cout << "    Loss " << sum << endl;
         }
     }
 

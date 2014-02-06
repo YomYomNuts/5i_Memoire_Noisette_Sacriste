@@ -6,6 +6,7 @@
 // ---------------------------------------------------------------------------
 
 // --- Includes --------------------------------------------------------------
+#define _USE_MATH_DEFINES
 
 #include "../../EsgiGL/EsgiGL.h"
 
@@ -14,6 +15,7 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
+#include <fstream>
 
 #include "../../EsgiGL/Common/vector.h"
 #include "../../EsgiGL/Common/matrix.h"
@@ -29,6 +31,7 @@ static vector<vec3> listMousePoints;
 
 static int sizeWindowX = 600;
 static int sizeWindowY = 600;
+static int nbAnglesNeed = 10;
 
 EsgiShader shader;
 
@@ -90,7 +93,7 @@ void Draw()
 	glUniformMatrix4fv(worldUniform, 1, 0, &worldMatrix.I.x);
 
 	glEnableVertexAttribArray(position_attrib);
-	glDrawArrays(GL_POINTS, 0, listMousePoints.size() - 1);
+	glDrawArrays(GL_POINTS, 0, listMousePoints.size());
 	glDisableVertexAttribArray(position_attrib);
 
 	// alternativement
@@ -110,7 +113,7 @@ bool Setup()
 	camera.orientation = vec3(0.f, 0.f, 0.f);
 	camera.target = vec3(0.f, 0.f, 0.f);
 
-	vector<int> sizePMC;
+	/*vector<int> sizePMC;
 	sizePMC.push_back(3);
 	sizePMC.push_back(2);
 	sizePMC.push_back(1);
@@ -146,7 +149,7 @@ bool Setup()
 	listTraining.push_back(trainingStruct3);
 
 	PMC perceptron(sizePMC);
-	perceptron.LaunchLearning(10000, 0.1, true, listTraining);
+	perceptron.LaunchLearning(10000, 0.1, true, listTraining);*/
 	
 	return true;
 }
@@ -172,6 +175,17 @@ void PassiveMouse(int mousex, int mousey)
 {
 }
 
+double orientedAngle(const vec3 & p1, const vec3 & p2, const vec3 & p3)
+{
+   vec3 v1 = p2 - p1;
+   vec3 v2 = p3 - p1;
+
+   double angle = (atan2f(v1.y, v1.x) - atan2f(v2.y, v2.x)) * 180 / M_PI;
+   if (angle < 0)
+	   angle += 360;
+   return angle;
+}
+
 void Keyboard(unsigned char key, int mx, int my)
 {
 	switch(key)
@@ -179,6 +193,41 @@ void Keyboard(unsigned char key, int mx, int my)
 	case 'c':
 		cout << "Clear" << endl;
 		listMousePoints.clear();
+		break;
+	case 'l':
+		if (listMousePoints.size() >= (unsigned int)(nbAnglesNeed + 2)) // Need 2 points more for to have nbAnglesNeed
+		{
+			// Define the type
+			int type = 0;
+			cout << "0 - carre" << endl;
+			cout << "1 - cercle" << endl;
+			cout << "2 - i" << endl;
+			cout << "3 - z" << endl;
+			cout << "4 - u" << endl;
+			cout << "5 - 8" << endl;
+			cout << "6 - s" << endl;
+			cout << "7 - triangle" << endl;
+			cout << "8 - etoile" << endl;
+			cout << "9 - labyrinthe" << endl;
+			cout << "Type ? ";
+			cin >> type;
+			
+			float offsetPoint = (float)(listMousePoints.size()) / (float)(nbAnglesNeed + 2);
+			vector<vec3> listPointsSelected;
+			for (float i = 0; i < listMousePoints.size(); i += offsetPoint)
+			{
+				listPointsSelected.push_back(listMousePoints.at((int)i));
+			}
+
+			ofstream myfile;
+			myfile.open ("inputs.txt", ios::out | ios::app);
+			for (unsigned int i = 1; i < listPointsSelected.size() - 1; ++i)
+			{
+				myfile << orientedAngle(listPointsSelected.at(i), listPointsSelected.at(i-1), listPointsSelected.at(i+1)) << " ";
+			}
+			myfile << type << "\n";
+			myfile.close();
+		}
 		break;
 	}
 }

@@ -16,6 +16,7 @@
     <None Include="basic.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="inputs.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PMC.h" />
