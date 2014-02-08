@@ -12,58 +12,57 @@
 
 
 struct Neuron {
-  double  x;     /* sortie */
-  double  e;     /* erreur */
-  double* w;     /* poids  */
-  double* dw;    /* dernier poids pour les momentum  */
-  double* wsave; /* poids sauvegardé */
+	double  x;     /* sortie */
+	double  e;     /* erreur */
+	double* w;     /* poids  */
+	double* dw;    /* dernier poids pour les momentum  */
+	double* wsave; /* poids sauvegardé */
 };
 
 struct Layer {
-  int     nNumNeurons;
-  Neuron* pNeurons;
+	int     nNumNeurons;
+	Neuron* pNeurons;
 };
 
-class MultiLayerPerceptron {
+class MultiLayerPerceptron
+{
+	private:
+		int    nNumLayers;
+		Layer* pLayers;
 
-  int    nNumLayers;
-  Layer* pLayers;
+		double dMSE;
+		double dMAE;
 
-  double dMSE;
-  double dMAE;
+		void RandomWeights();
 
-  void RandomWeights();
+		void SetInputSignal (double* input);
+		void GetOutputSignal(double* output);
 
-  void SetInputSignal (double* input);
-  void GetOutputSignal(double* output);
+		void SaveWeights();
+		void RestoreWeights();
 
-  void SaveWeights();
-  void RestoreWeights();
+		void PropagateSignal();
+		void ComputeOutputError(double* target);
+		void BackPropagateError();
+		void AdjustWeights();
 
-  void PropagateSignal();
-  void ComputeOutputError(double* target);
-  void BackPropagateError();
-  void AdjustWeights();
-
-  void Simulate(double* input, double* output, double* target, bool training);
+		void Simulate(double* input, double* output, double* target, bool training);
 
 
-public:
-
-  double dEta;
-  double dAlpha;
-  double dGain;
-  double dAvgTestError;
+	public:
+		double dEta;
+		double dAlpha;
+		double dGain;
+		double dAvgTestError;
   
-  MultiLayerPerceptron(int nl, int npl[]);
-  ~MultiLayerPerceptron();
+		MultiLayerPerceptron(int nl, int npl[]);
+		~MultiLayerPerceptron();
 
-  int Train(const char* fnames);
-  int Test (const char* fname);
-  int Evaluate();
+		int Train(const char* fnames);
+		int Test (const char* fname);
+		int Evaluate();
 
-  void Run(const char* fname, const int& maxiter);
-
+		void Run(const char* fname, const int& maxiter);
 };
 
 #endif

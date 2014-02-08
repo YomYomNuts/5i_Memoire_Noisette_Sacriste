@@ -31,7 +31,8 @@ static vector<vec3> listMousePoints;
 
 static int sizeWindowX = 600;
 static int sizeWindowY = 600;
-static int nbAnglesNeed = 10;
+static int nbAnglesNeed = 20;
+static int typeForm = 0; // 0 - carre, 1 - cercle, 2 - barre, 3 - z, 4 - u, 5 - 8, 6 - s, 7 - triangle, 8 - etoile, 9 - labyrinthe
 
 EsgiShader shader;
 
@@ -191,27 +192,29 @@ void Keyboard(unsigned char key, int mx, int my)
 	switch(key)
 	{
 	case 'c':
+	case 'C':
 		cout << "Clear" << endl;
 		listMousePoints.clear();
 		break;
-	case 'l':
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+		{
+			char arr[] = "X";
+			arr[0] = key;
+			typeForm = atoi(arr);
+		} break;
+	case 's':
+	case 'S':
 		if (listMousePoints.size() >= (unsigned int)(nbAnglesNeed + 2)) // Need 2 points more for to have nbAnglesNeed
 		{
-			// Define the type
-			int type = 0;
-			cout << "0 - carre" << endl;
-			cout << "1 - cercle" << endl;
-			cout << "2 - i" << endl;
-			cout << "3 - z" << endl;
-			cout << "4 - u" << endl;
-			cout << "5 - 8" << endl;
-			cout << "6 - s" << endl;
-			cout << "7 - triangle" << endl;
-			cout << "8 - etoile" << endl;
-			cout << "9 - labyrinthe" << endl;
-			cout << "Type ? ";
-			cin >> type;
-			
 			float offsetPoint = (float)(listMousePoints.size()) / (float)(nbAnglesNeed + 2);
 			vector<vec3> listPointsSelected;
 			for (float i = 0; i < listMousePoints.size(); i += offsetPoint)
@@ -225,7 +228,7 @@ void Keyboard(unsigned char key, int mx, int my)
 			{
 				myfile << orientedAngle(listPointsSelected.at(i), listPointsSelected.at(i-1), listPointsSelected.at(i+1)) << " ";
 			}
-			myfile << type << "\n";
+			myfile << typeForm << "\n";
 			myfile.close();
 		}
 		break;
