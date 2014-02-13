@@ -45,7 +45,8 @@ class MultiLayerPerceptron
 		void ComputeOutputError(double* target);
 		void BackPropagateError();
 		void AdjustWeights();
-
+		
+		void SimulateSignal(double* input, double* output, bool training);
 		void Simulate(double* input, double* output, double* target, bool training);
 
 
@@ -60,7 +61,7 @@ class MultiLayerPerceptron
 
 		int Train(const char* fnames);
 		int Test (const char* fname);
-		int Evaluate();
+		int Evaluate(const char* fname);
 
 		void Run(const char* fname, const int& maxiter);
 };

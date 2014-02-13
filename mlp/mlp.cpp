@@ -5,6 +5,8 @@
  *         http://www.sylbarth.com
  * Date  : 2000-08
 *********************************************************************/
+#define DISPLAY_DEBUG			0
+#define DISPLAY_NO_VALUE_DEBUG	1
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -240,6 +242,25 @@ void MultiLayerPerceptron::AdjustWeights()
 	}
 }
 
+void MultiLayerPerceptron::SimulateSignal(double* input, double* output, bool training)
+{
+	/* --- on fait passer le signal dans le réseau */
+	SetInputSignal(input);
+	PropagateSignal();
+	if(output)
+		GetOutputSignal(output);
+
+#if DISPLAY_DEBUG
+	if(output && !training)
+	{
+		printf("test: %.2f %.2f ", input[0],input[1]);
+		for ( int i = 0; i < pLayers[nNumLayers-1].nNumNeurons; i++ )
+			printf("%.2f ", output[i]);
+		printf("\n");
+	}
+#endif
+}
+
 void MultiLayerPerceptron::Simulate(double* input, double* output, double* target, bool training)
 {
 	if(!input)
@@ -248,13 +269,7 @@ void MultiLayerPerceptron::Simulate(double* input, double* output, double* targe
 		return;
   
 	/* --- on fait passer le signal dans le réseau */
-	SetInputSignal(input);
-	PropagateSignal();
-	if(output)
-		GetOutputSignal(output);
-
-	if(output && !training)
-		printf("test: %.2f %.2f %.2f = %.2f\n", input[0],input[1],target[0],output[0]);
+	SimulateSignal(input, output, training);
 
 	/* --- calcul de l'erreur en sortie par rapport à la cible */
 	/*     ce calcul sert de base pour la rétropropagation     */
@@ -323,7 +338,7 @@ int MultiLayerPerceptron::Train(const char* fname)
 
 	while( !feof(fp) )
 	{
-	double dNumber;
+		double dNumber;
 		if( read_number(fp,&dNumber) )
 		{
 			/* --- on le transforme en input/target */
@@ -429,9 +444,61 @@ int MultiLayerPerceptron::Test(const char* fname)
 	return count;
 }
 
-int MultiLayerPerceptron::Evaluate()
+int MultiLayerPerceptron::Evaluate(const char* fname)
 {
 	int count = 0;
+	int nbi   = 0;
+	double* input  = NULL;
+	double* output = NULL;
+	FILE*   fp = NULL;
+
+	fp = fopen(fname,"r");
+	if(!fp)
+		return 0;
+
+	input  = new double[pLayers[0].nNumNeurons];
+	output = new double[pLayers[nNumLayers-1].nNumNeurons];
+
+	if(!input)
+		return 0;
+	if(!output)
+		return 0;
+
+	while( !feof(fp) )
+	{
+		double dNumber;
+		if( read_number(fp,&dNumber) )
+		{
+			/* --- on le transforme en input */
+			if( nbi < pLayers[0].nNumNeurons ) 
+				input[nbi++] = dNumber;
+
+			/* --- on fait un apprentisage du réseau  avec cette ligne*/
+			if(nbi == pLayers[0].nNumNeurons) 
+			{
+				SimulateSignal(input, output, true);
+
+				for ( int i = 0; i < pLayers[nNumLayers-1].nNumNeurons; i++ )
+					printf("%.2f ", output[i]);
+
+				nbi = 0;
+				count++;
+			}
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	if(fp)
+		fclose(fp);
+
+	if(input)
+		delete[] input;
+	if(output)
+		delete[] output;
+
 	return count;
 }
 
@@ -461,11 +528,15 @@ void MultiLayerPerceptron::Run(const char* fname, const int& maxiter)
 			firstIter = false;
 		}
 
+#if DISPLAY_NO_VALUE_DEBUG
 		printf( "%i \t TestError: %f", countTrain, dAvgTestError);
+#endif
 
 		if ( dAvgTestError < dMinTestError) 
 		{
+#if DISPLAY_NO_VALUE_DEBUG
 			printf(" -> saving weights\n");
+#endif
 			dMinTestError = dAvgTestError;
 			SaveWeights();
 		}
@@ -477,7 +548,9 @@ void MultiLayerPerceptron::Run(const char* fname, const int& maxiter)
 		}
 		else
 		{
+#if DISPLAY_NO_VALUE_DEBUG
 			printf(" -> ok\n");
+#endif
 		}
 	} while ( (!Stop) && (countTrain<maxiter) );
 

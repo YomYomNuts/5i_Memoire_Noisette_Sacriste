@@ -31,8 +31,9 @@ static vector<vec3> listMousePoints;
 
 static int sizeWindowX = 600;
 static int sizeWindowY = 600;
-static int nbAnglesNeed = 20;
-static int typeForm = 0; // 0 - carre, 1 - cercle, 2 - barre, 3 - z, 4 - u, 5 - 8, 6 - s, 7 - triangle, 8 - etoile, 9 - labyrinthe
+static int nbAnglesNeed = 100;
+static int typeForm = 0.0f; // 0 - carre, 1 - cercle, 2 - barre, 3 - z, 4 - u, 5 - 8, 6 - s, 7 - triangle, 8 - etoile, 9 - labyrinthe
+static bool inputMode = false;
 
 EsgiShader shader;
 
@@ -184,7 +185,7 @@ double orientedAngle(const vec3 & p1, const vec3 & p2, const vec3 & p3)
    double angle = (atan2f(v1.y, v1.x) - atan2f(v2.y, v2.x)) * 180 / M_PI;
    if (angle < 0)
 	   angle += 360;
-   return angle;
+   return angle/360;
 }
 
 void Keyboard(unsigned char key, int mx, int my)
@@ -195,6 +196,10 @@ void Keyboard(unsigned char key, int mx, int my)
 	case 'C':
 		cout << "Clear" << endl;
 		listMousePoints.clear();
+		break;
+	case 'i':
+	case 'I':
+		inputMode = !inputMode;
 		break;
 	case '0':
 	case '1':
@@ -215,12 +220,14 @@ void Keyboard(unsigned char key, int mx, int my)
 	case 'S':
 		if (listMousePoints.size() >= (unsigned int)(nbAnglesNeed + 2)) // Need 2 points more for to have nbAnglesNeed
 		{
-			float offsetPoint = (float)(listMousePoints.size()) / (float)(nbAnglesNeed + 2);
+			double offsetPoint = (double)(listMousePoints.size()) / (double)(nbAnglesNeed + 1);
 			vector<vec3> listPointsSelected;
-			for (float i = 0; i < listMousePoints.size(); i += offsetPoint)
+			for (double i = 0; i < listMousePoints.size(); i += offsetPoint)
 			{
 				listPointsSelected.push_back(listMousePoints.at((int)i));
 			}
+			if (listPointsSelected.size() < nbAnglesNeed + 2)
+				listPointsSelected.push_back(listMousePoints.at(listMousePoints.size() - 1));
 
 			ofstream myfile;
 			myfile.open ("inputs.txt", ios::out | ios::app);
@@ -228,7 +235,21 @@ void Keyboard(unsigned char key, int mx, int my)
 			{
 				myfile << orientedAngle(listPointsSelected.at(i), listPointsSelected.at(i-1), listPointsSelected.at(i+1)) << " ";
 			}
-			myfile << typeForm << "\n";
+
+			if (!inputMode)
+			{
+				for (int i = 0; i < 10; ++i)
+				{
+					if (i == typeForm)
+						myfile << 1;
+					else
+						myfile << 0;
+					if (i < 10 - 1)
+						myfile << " ";
+					else
+						myfile << "\n";
+				}
+			}
 			myfile.close();
 		}
 		break;
