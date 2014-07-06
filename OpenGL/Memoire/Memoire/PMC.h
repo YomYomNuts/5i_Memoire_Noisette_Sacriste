@@ -6,10 +6,11 @@
 using namespace std;
 
 typedef struct {
-    vector<double> weight;
-    double hx;
-	double in;
 	double loss;
+    double out;
+    vector<double> weight;
+    vector<double> weightPrevious;
+    vector<double> weightSave;
 } Node;
 
 typedef struct {
@@ -22,14 +23,24 @@ class PMC
 private:
 	// This vector contains the number of nodes by layer
 	vector<vector<Node>> perceptron;
+	int maxIterations;
+	double learningRate;
+	double inertiaRate;
+	bool useSigmoid;
+
+	void InitializeRandoms();
 	double RandomDouble(double Low, double High);
+	void InitializeWeight();
+	void InitializeStruct(const char* fileName, vector<TrainingStruct> & listTraining);
+	void SaveWeights();
+	void RestoreWeights();
 	double FunctionSigmoid(double wx);
 	double FunctionThreshold(double wx);
-	void InitializeWeight();
 public:
-	PMC(vector<int> sizePMC);
+	PMC(vector<int> sizePMC, int maxIterations, double learningRate, double inertiaRate, bool useSigmoid);
 	~PMC(void);
-	bool LaunchLearning(int maxIteration, double learningRate, bool useSigmoid, vector<TrainingStruct> listTraining);
+	void LaunchLearning(const char* fileName);
+	void Evaluate(const char* fileName);
 };
 
 #endif

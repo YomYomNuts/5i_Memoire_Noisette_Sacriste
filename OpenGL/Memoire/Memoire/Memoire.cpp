@@ -31,9 +31,11 @@ static vector<vec3> listMousePoints;
 
 static int sizeWindowX = 600;
 static int sizeWindowY = 600;
-static int nbAnglesNeed = 100;
-static int typeForm = 0.0f; // 0 - carre, 1 - cercle, 2 - barre, 3 - z, 4 - u, 5 - 8, 6 - s, 7 - triangle, 8 - etoile, 9 - labyrinthe
-static bool inputMode = false;
+static int nbAnglesNeed = 10;
+static int typeForm = 0.0f; // 0 - Carre, 1 - Cercle, 2 - Ligne, 3 - Z, 4 - U, 5 - 8, 6 - S, 7 - Triangle, 8 - Etoile, 9 - escargot
+static bool inputMode = true;
+static bool eraseFileInput = true;
+PMC * perceptron;
 
 EsgiShader shader;
 
@@ -115,43 +117,10 @@ bool Setup()
 	camera.orientation = vec3(0.f, 0.f, 0.f);
 	camera.target = vec3(0.f, 0.f, 0.f);
 
-	/*vector<int> sizePMC;
-	sizePMC.push_back(3);
-	sizePMC.push_back(2);
-	sizePMC.push_back(1);
-
-	vector<TrainingStruct> listTraining;
-
-	TrainingStruct trainingStruct0;
-	trainingStruct0.data.push_back(0);
-	trainingStruct0.data.push_back(0);
-	trainingStruct0.data.push_back(1);
-	trainingStruct0.result.push_back(0);
-	listTraining.push_back(trainingStruct0);
-	
-	TrainingStruct trainingStruct1;
-	trainingStruct1.data.push_back(0);
-	trainingStruct1.data.push_back(1);
-	trainingStruct1.data.push_back(1);
-	trainingStruct1.result.push_back(1);
-	listTraining.push_back(trainingStruct1);
-
-	TrainingStruct trainingStruct2;
-	trainingStruct2.data.push_back(1);
-	trainingStruct2.data.push_back(0);
-	trainingStruct2.data.push_back(1);
-	trainingStruct2.result.push_back(1);
-	listTraining.push_back(trainingStruct2);
-
-	TrainingStruct trainingStruct3;
-	trainingStruct3.data.push_back(1);
-	trainingStruct3.data.push_back(1);
-	trainingStruct3.data.push_back(1);
-	trainingStruct3.result.push_back(0);
-	listTraining.push_back(trainingStruct3);
-
-	PMC perceptron(sizePMC);
-	perceptron.LaunchLearning(10000, 0.1, true, listTraining);*/
+	int myints[] = {10,50,50,10};
+	std::vector<int> sizePMC (myints, myints + sizeof(myints) / sizeof(int) );
+	perceptron = new PMC(sizePMC, 5000, 0.25, 0.9, true);
+	perceptron->LaunchLearning("inputs10_essais_10angles.txt");
 	
 	return true;
 }
@@ -170,7 +139,7 @@ void Clean()
 void ActiveMouse(int mousex, int mousey)
 {
 	float tempX = mousex - sizeWindowX/2, tempY = (mousey - sizeWindowY/2) * -1;
-	cout << "tempX " << tempX << " tempY " << tempY << endl;
+	//cout << "tempX " << tempX << " tempY " << tempY << endl;
 	listMousePoints.push_back(vec3(tempX, tempY, 0));
 }
 void PassiveMouse(int mousex, int mousey)
@@ -194,7 +163,7 @@ void Keyboard(unsigned char key, int mx, int my)
 	{
 	case 'c':
 	case 'C':
-		cout << "Clear" << endl;
+		//cout << "Clear" << endl;
 		listMousePoints.clear();
 		break;
 	case 'i':
@@ -230,7 +199,10 @@ void Keyboard(unsigned char key, int mx, int my)
 				listPointsSelected.push_back(listMousePoints.at(listMousePoints.size() - 1));
 
 			ofstream myfile;
-			myfile.open ("inputs.txt", ios::out | ios::app);
+			if (eraseFileInput)
+				myfile.open ("inputs.txt", ios::out | ios::trunc);
+			else
+				myfile.open ("inputs.txt", ios::out | ios::app);
 			for (unsigned int i = 1; i < listPointsSelected.size() - 1; ++i)
 			{
 				myfile << orientedAngle(listPointsSelected.at(i), listPointsSelected.at(i-1), listPointsSelected.at(i+1)) << " ";
@@ -251,8 +223,17 @@ void Keyboard(unsigned char key, int mx, int my)
 				}
 			}
 			myfile.close();
-		}
-		break;
+		} break;
+	case 't':
+	case 'T':
+		{
+			perceptron->Evaluate("inputs.txt");
+		} break;
+	case 'e':
+	case 'E':
+		{
+			eraseFileInput = !eraseFileInput;
+		} break;
 	}
 }
 

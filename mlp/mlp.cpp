@@ -6,7 +6,7 @@
  * Date  : 2000-08
 *********************************************************************/
 #define DISPLAY_DEBUG			0
-#define DISPLAY_NO_VALUE_DEBUG	1
+#define DISPLAY_NO_VALUE_DEBUG	0
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -480,7 +480,7 @@ int MultiLayerPerceptron::Evaluate(const char* fname)
 
 				for ( int i = 0; i < pLayers[nNumLayers-1].nNumNeurons; i++ )
 					printf("%.2f ", output[i]);
-
+				printf("\n");
 				nbi = 0;
 				count++;
 			}
@@ -542,7 +542,9 @@ void MultiLayerPerceptron::Run(const char* fname, const int& maxiter)
 		}
 		else if (dAvgTestError > 1.2 * dMinTestError) 
 		{
+#if DISPLAY_NO_VALUE_DEBUG
 			printf(" -> stopping training and restoring weights\n");
+#endif
 			Stop = true;
 			RestoreWeights();
 		}
@@ -553,7 +555,9 @@ void MultiLayerPerceptron::Run(const char* fname, const int& maxiter)
 #endif
 		}
 	} while ( (!Stop) && (countTrain<maxiter) );
-
+	
+#if DISPLAY_NO_VALUE_DEBUG
 	printf("bye\n");
+#endif
 }
 
